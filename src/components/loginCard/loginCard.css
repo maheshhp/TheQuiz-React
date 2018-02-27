@@ -1,0 +1,50 @@
+.LoginCard{
+  display: flex;
+  flex-direction: row;
+  width: 500px;
+  height: 300px;
+}
+.LoginCardTitle{
+  flex-grow: 1;
+  background-color: rgb(68, 199, 245);
+  padding-top: 100px;
+}
+.LoginCardField{
+  flex-grow: 1;
+  background-color: rgb(255, 255, 255);
+}
+.LoginCardTextBlack{
+  color: black;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.LoginCardTextWhite{
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+.LoginElements{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  padding: 22px;
+}
+.LoginCardUserName{
+  border: 2px solid black;
+  width: 95%;
+  height: 26px;
+  margin-top: -18px;
+  align-self: center;
+}
+.LoginCardButton{
+  width: 60%;
+  align-self: center;
+  padding: 8px;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 10px;
+  margin-top: 25px;
+  font-size: 16px;
+  font-weight: 600;
+}
