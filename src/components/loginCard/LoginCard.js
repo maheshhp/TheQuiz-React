@@ -2,6 +2,21 @@ import React, { Component } from 'react';
 import './loginCard.css';
 
 class BookBox extends Component {
+  state = {
+    userName: '',
+  }
+  updateUsernameState = (event) => {
+    this.setState({
+      userName: event.target.value,
+    });
+  }
+  verifyAndRequest = () => {
+    if (this.state.userName === '' || this.state.userName === null) {
+      console.log('Invalid');
+    } else {
+      this.props.loginHandle(this.state.userName);
+    }
+  }
   render() {
     return (
       <div className="LoginCard">
@@ -14,8 +29,8 @@ class BookBox extends Component {
           <div className="LoginElements">
             <h3 className="LoginElementTitle">Login</h3>
             <h5>Username</h5>
-            <input type="text" className="LoginCardUserName" />
-            <button className="LoginCardButton">Login</button>
+            <input onChange={this.updateUsernameState} type="text" className="LoginCardUserName" />
+            <button className="LoginCardButton" onClick={this.verifyAndRequest}>Login</button>
           </div>
         </div>
       </div>);
