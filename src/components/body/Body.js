@@ -7,7 +7,6 @@ import './body.css';
 
 class Body extends Component {
   render() {
-    console.log(this.props.userName);
     if (this.props.screenId === 0) {
       return (
         <div className="Body">

@@ -53,7 +53,6 @@ class App extends Component {
       });
   }
   answerHandle = (questionId, newOption) => {
-    console.log(questionId, newOption);
     fetch('/update', {
       headers: {
         Accept: 'application/json',
@@ -74,9 +73,21 @@ class App extends Component {
       })
       .then(res => res.json())
       .then((jsonRes) => {
+        console.log(jsonRes);
         this.setState({
           leaderBoard: [...this.state.leaderBoard, ...jsonRes.data],
-        }, () => { console.log(this.state.leaderBoard, this.state.userName); });
+        }, () => {
+          const tempState = this.state.questionBank;
+          for (let i = 0; i < tempState.length; i += 1) {
+            if (tempState[i].questionId.toString() === questionId) {
+              tempState[i].userOption.option = newOption;
+              break;
+            }
+          }
+          this.setState({
+            questionBank: tempState,
+          });
+        });
       });
   }
   playAgainHandle = () => {
@@ -108,7 +119,7 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <Header userName={`Hello ${this.state.userName}`} />
+        <Header userName={this.state.userName.length === 0 ? '' : `Hello ${this.state.userName}`} />
         <Body
           loginHandle={this.loginHandle}
           screenId={this.state.screenId}

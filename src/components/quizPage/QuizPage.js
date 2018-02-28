@@ -4,12 +4,27 @@ import './quizPage.css';
 
 class QuizPage extends Component {
   state = {
-    numChecked: 12,
+    numChecked: [],
+  }
+  componentDidMount() {
+    const { questionBank } = this.props;
+    const tempState = this.state.numChecked;
+    for (let i = 0; i < questionBank.length; i += 1) {
+      if (questionBank[i].userOption.option !== '') {
+        tempState[questionBank[i].questionId.toString()] = 1;
+      }
+    }
+    this.setState({
+      numChecked: tempState,
+    });
   }
   optionClickHandler =(event) => {
+    const tempState = this.state.numChecked;
+    tempState[event.target.name] = 1;
     this.setState({
-      numChecked: this.state.numChecked + 1,
-    });
+      numChecked: tempState,
+    }, () => { console.log(this.state.numChecked); });
+
     this.props.answerHandle(event.target.name, event.target.value);
   }
   render() {
@@ -19,12 +34,9 @@ class QuizPage extends Component {
       const options = [];
       questionBank[i].questionOptions.forEach((option) => {
         if (questionBank[i].userOption.option === option.option) {
-          options.push(<div className="QuizOptionRadio"><input onChange={this.optionClickHandler} type="radio" value={option.option} name={option.question_id} id={option.id} checked /> <span>{option.option}</span></div>);
-          // this.setState({
-          //   numChecked: this.state.numChecked + 1,
-          // });
+          options.push(<div className="QuizOptionRadio"><input key={i} onChange={this.optionClickHandler} type="radio" value={option.option} name={option.question_id} id={option.id} checked /> <span>{option.option}</span></div>);
         } else {
-          options.push(<div className="QuizOptionRadio"><input onChange={this.optionClickHandler} type="radio" value={option.option} name={option.question_id} id={option.id} /> <span>{option.option}</span></div>);
+          options.push(<div className="QuizOptionRadio"><input key={i} onChange={this.optionClickHandler} type="radio" value={option.option} name={option.question_id} id={option.id} /> <span>{option.option}</span></div>);
         }
       });
       questionCards.push(<div className="QuizQuestionContainer" key={i}>
@@ -40,7 +52,7 @@ class QuizPage extends Component {
     const returnValue =
     (<div className="QuizPage">
       {questionCards}
-      <button className="CalculateButton" onClick={() => { this.props.leaderBoardHandle(); }} disabled={!(this.state.numChecked >= this.props.questionBank.length)}>Calculate</button>
+      <button className="CalculateButton" onClick={() => { this.props.leaderBoardHandle(); }} disabled={!(this.state.numChecked.length >= this.props.questionBank.length)}>Calculate</button>
     </div>);
     return returnValue;
   }
