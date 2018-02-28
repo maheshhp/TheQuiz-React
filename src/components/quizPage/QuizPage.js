@@ -4,7 +4,7 @@ import './quizPage.css';
 
 class QuizPage extends Component {
   state = {
-    numChecked: 0,
+    numChecked: 12,
   }
   optionClickHandler =(event) => {
     this.setState({
@@ -20,9 +20,9 @@ class QuizPage extends Component {
       questionBank[i].questionOptions.forEach((option) => {
         if (questionBank[i].userOption.option === option.option) {
           options.push(<div className="QuizOptionRadio"><input onChange={this.optionClickHandler} type="radio" value={option.option} name={option.question_id} id={option.id} checked /> <span>{option.option}</span></div>);
-          this.setState({
-            numChecked: this.state.numChecked + 1,
-          });
+          // this.setState({
+          //   numChecked: this.state.numChecked + 1,
+          // });
         } else {
           options.push(<div className="QuizOptionRadio"><input onChange={this.optionClickHandler} type="radio" value={option.option} name={option.question_id} id={option.id} /> <span>{option.option}</span></div>);
         }
@@ -40,7 +40,7 @@ class QuizPage extends Component {
     const returnValue =
     (<div className="QuizPage">
       {questionCards}
-      <button onClick={() => { this.props.leaderBoardHandle(); }} disabled={!(this.state.numChecked >= this.props.questionBank.length)}>Calculate</button>
+      <button className="CalculateButton" onClick={() => { this.props.leaderBoardHandle(); }} disabled={!(this.state.numChecked >= this.props.questionBank.length)}>Calculate</button>
     </div>);
     return returnValue;
   }

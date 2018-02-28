@@ -9,6 +9,7 @@ class App extends Component {
     userName: '',
     questionBank: [],
     leaderBoard: [],
+    userId: -1,
   }
   loginHandle = (userName) => {
     fetch(`/questions/${userName}`)
@@ -21,10 +22,11 @@ class App extends Component {
       .then(res => res.json())
       .then((jsonRes) => {
         this.setState({
-          questionBank: [...this.state.questionBank, ...jsonRes.data],
+          questionBank: [...jsonRes.data],
           userName: jsonRes.data[0].userName,
+          userId: jsonRes.data[0].userId,
           screenId: 1,
-        }, () => { console.log(this.state.questionBank, this.state.userName); });
+        }, () => { console.log(this.state.questionBank, this.state.userName, jsonRes.data); });
       });
   }
   leaderBoardHandle = () => {
@@ -43,8 +45,40 @@ class App extends Component {
         }, () => { console.log(this.state.leaderBoard, this.state.userName); });
       });
   }
-  handleAnswer = (questionId, newOption) => {
+  answerHandle = (questionId, newOption) => {
     console.log(questionId, newOption);
+    fetch('/update', {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        user_id: this.state.userId,
+        question_id: questionId,
+        option: newOption,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          console.log('Network request failed');
+        }
+        return response;
+      })
+      .then(res => res.json())
+      .then((jsonRes) => {
+        this.setState({
+          leaderBoard: [...this.state.leaderBoard, ...jsonRes.data],
+        }, () => { console.log(this.state.leaderBoard, this.state.userName); });
+      });
+  }
+  playAgainHandle = () => {
+    this.setState({
+      screenId: 0,
+      userName: '',
+      questionBank: [],
+      leaderBoard: [],
+    });
   }
   render() {
     if (this.state.screenId === 1) {
@@ -58,22 +92,25 @@ class App extends Component {
             screenId={this.state.screenId}
             questionBank={this.state.questionBank}
             leaderBoard={this.state.leaderBoard}
-            answerHandle={this.handleAnswer}
+            answerHandle={this.answerHandle}
             leaderBoardHandle={this.leaderBoardHandle}
+            playAgainHandle={this.playAgainHandle}
           />
         </div>
       );
     }
     return (
       <div className="App">
-        <Header />
+        <Header userName={`Hello ${this.state.userName}`} />
         <Body
           loginHandle={this.loginHandle}
           screenId={this.state.screenId}
           questionBank={this.state.questionBank}
           leaderBoard={this.state.leaderBoard}
-          answerHandle={this.handleAnswer}
+          answerHandle={this.answerHandle}
           leaderBoardHandle={this.leaderBoardHandle}
+          playAgainHandle={this.playAgainHandle}
+          userName={this.state.userName}
         />
       </div>
     );
