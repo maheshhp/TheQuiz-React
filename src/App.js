@@ -27,6 +27,25 @@ class App extends Component {
         }, () => { console.log(this.state.questionBank, this.state.userName); });
       });
   }
+  leaderBoardHandle = () => {
+    fetch('/leaderBoard')
+      .then((response) => {
+        if (!response.ok) {
+          console.log('Network request failed');
+        }
+        return response;
+      })
+      .then(res => res.json())
+      .then((jsonRes) => {
+        this.setState({
+          leaderBoard: [...this.state.leaderBoard, ...jsonRes.data],
+          screenId: 2,
+        }, () => { console.log(this.state.leaderBoard, this.state.userName); });
+      });
+  }
+  handleAnswer = (questionId, newOption) => {
+    console.log(questionId, newOption);
+  }
   render() {
     if (this.state.screenId === 1) {
       return (
@@ -37,6 +56,10 @@ class App extends Component {
           <Body
             loginHandle={this.loginHandle}
             screenId={this.state.screenId}
+            questionBank={this.state.questionBank}
+            leaderBoard={this.state.leaderBoard}
+            answerHandle={this.handleAnswer}
+            leaderBoardHandle={this.leaderBoardHandle}
           />
         </div>
       );
@@ -47,6 +70,10 @@ class App extends Component {
         <Body
           loginHandle={this.loginHandle}
           screenId={this.state.screenId}
+          questionBank={this.state.questionBank}
+          leaderBoard={this.state.leaderBoard}
+          answerHandle={this.handleAnswer}
+          leaderBoardHandle={this.leaderBoardHandle}
         />
       </div>
     );
