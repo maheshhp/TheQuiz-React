@@ -9,16 +9,17 @@ class LeaderBoard extends Component {
     const scoreRender = [];
     for (let i = 0; i < tempLeaderBoard.length; i += 1) {
       if (tempLeaderBoard[i].user_name === this.props.userName) {
-        scoreRender.push(<div className="UserScore">{tempLeaderBoard[i].score}</div>);
-        console.log(scoreRender);
+        scoreRender.push(<span className="UserScore">{tempLeaderBoard[i].score}</span>);
+        rowsToRender.push(<div className="ScoreRow UserScoreRow"><span className="IdInRow">{i + 1}. </span><span className="NameInRow">{tempLeaderBoard[i].user_name}</span> <span className="ScoreInRow">{tempLeaderBoard[i].score}</span></div>);
+      } else {
+        rowsToRender.push(<div className="ScoreRow"><span className="IdInRow">{i + 1}. </span><span className="NameInRow">{tempLeaderBoard[i].user_name}</span> <span className="ScoreInRow">{tempLeaderBoard[i].score}</span></div>);
       }
-      rowsToRender.push(<div className="ScoreRow"><span className="IdInRow">{i + 1}. </span><span className="NameInRow">{tempLeaderBoard[i].user_name}</span> <span className="ScoreInRow">{tempLeaderBoard[i].score}</span></div>);
     }
     console.log(scoreRender);
     return (
       <div className="LeaderBoard">
         <h4 className="ScoreTitle">Your Score</h4>
-        <h3 className="TotalScore">{this.scoreRender}/{this.props.questionBank.length}</h3>
+        <h3 className="TotalScore">{scoreRender}/{this.props.questionBank.length}</h3>
         <h4 className="LeaderBoardTitle">LeaderBoard</h4>
         <div className="ScoreRowContainer">
           {rowsToRender}

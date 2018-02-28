@@ -4,6 +4,8 @@
   flex-direction: column;
   align-content: flex-start;
   align-items: flex-start;
+  position: fixed;
+  top: 80px;
 }
 .LeaderBoardTitle{
   align-self: center;
@@ -62,4 +64,10 @@
 .IdInRow{
   float: left;
   font-weight: 500;
+}
+.UserScoreRow{
+  color: orange;
+}
+.UserScoreRow>span{
+  color: orange;
 }

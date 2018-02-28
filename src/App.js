@@ -12,6 +12,13 @@ class App extends Component {
     userId: -1,
   }
   loginHandle = (userName) => {
+    this.setState({
+      screenId: 0,
+      userName: '',
+      questionBank: [],
+      leaderBoard: [],
+      userId: -1,
+    });
     fetch(`/questions/${userName}`)
       .then((response) => {
         if (!response.ok) {
